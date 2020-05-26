@@ -18,6 +18,9 @@
             <v-btn color="green" type="submit">
                 Login
             </v-btn>
+            <router-link to="/signup" style="text-decoration: none">
+                <v-btn color="blue">Sign Up</v-btn>
+            </router-link>
         </v-form>
     </v-container>
 </template>
@@ -31,6 +34,12 @@
                     email: null,
                     password: null
                 }
+            }
+        },
+        created(){
+            const self = this;
+            if(User.loggedIn()){
+                self.$router.push({name: 'forum'});
             }
         },
         methods: {

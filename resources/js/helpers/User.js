@@ -13,6 +13,7 @@ class User{
         const { data: { access_token, username } = {} } = res;
         if(Token.isValid(access_token)){
             AppStorage.store(username, access_token);
+            window.location = '/forum';
         }
     }
 
@@ -37,6 +38,8 @@ class User{
                 }).catch(err=>{
                 console.log(err.response.data);
             });
+            AppStorage.clear();
+            window.location = '/forum';
         }
     }
 }

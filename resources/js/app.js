@@ -34,6 +34,8 @@ import router from './router/router.js';
 import User from './helpers/User.js';
 
 window.User = User;
+
+window.EventBus = new Vue();
 Vue.component('AppHome', AppHome);
 
 const app = new Vue({

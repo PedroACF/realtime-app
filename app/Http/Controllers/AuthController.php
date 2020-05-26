@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,15 +46,15 @@ class AuthController extends Controller
         return $tokenResponse;
     }
 
-    public function register(Request $request){
+    public function register(RegisterRequest $request){
 
         $user = new User();
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->email = $request->username;
         $user->password = bcrypt($request->password);
         $user->save();
 
-        return response()->json(['message'=>'Successfully created']);
+        return $this->login($request);
     }
 
     public function logout(){
