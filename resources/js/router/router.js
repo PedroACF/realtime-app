@@ -6,6 +6,7 @@ import SignUp from "../components/login/SignUp";
 import Forum from '../components/forum/Forum';
 import Read from '../components/forum/Read';
 import Create from '../components/forum/Create';
+import CreateCategory from '../components/category/Create';
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,10 @@ const routes = [
         path: '/signup',
         component: SignUp
     },
+    {
+        path: '/category',
+        component: CreateCategory
+    }
 ];
 
 const router = new VueRouter({

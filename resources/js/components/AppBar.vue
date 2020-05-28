@@ -29,7 +29,7 @@
                 items: [
                     {title: 'Forum', to: '/forum', show: true},
                     {title: 'Ask Question', to: '/ask', show: User.loggedIn()},
-                    {title: 'Categories', to: '/category', show: User.loggedIn()},
+                    {title: 'Categories', to: '/category', show: User.admin()},
                     {title: 'LogIn', to: '/login', show: !User.loggedIn()},
                     {title: 'LogOut', to: '/logout', show: User.loggedIn()},
                 ]

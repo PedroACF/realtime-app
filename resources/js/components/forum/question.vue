@@ -1,8 +1,8 @@
 <template>
-    <v-card>
+    <v-card class="mb-4">
         <v-card-title>
             <h3 class="headline mb-0">
-                <router-link :to="data.path">
+                <router-link :to="data.path" style="text-decoration: none; color: inherit;">
                     {{data.title}}
                 </router-link>
             </h3>
