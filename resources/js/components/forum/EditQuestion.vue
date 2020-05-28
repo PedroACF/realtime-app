@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-card>
+        <v-card class="pa-4">
             <v-form @submit.prevent="update">
                 <v-text-field
                         v-model="form.title"

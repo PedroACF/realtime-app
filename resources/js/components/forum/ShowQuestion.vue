@@ -10,7 +10,7 @@
                 </span>
             </div>
             <v-spacer></v-spacer>
-            <v-btn color="teal">Replies</v-btn>
+            <v-btn color="teal" dark>{{data.replies_count}} Replies</v-btn>
         </v-card-title>
 
         <v-card-text v-html="body">

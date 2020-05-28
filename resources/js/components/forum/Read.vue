@@ -1,22 +1,30 @@
 <template>
-    <div>
+    <div v-if="question">
         <edit-question v-if="editing" :data="question"></edit-question>
-        <div v-else>
-            <show-question
-                    :data="question" v-if="question"></show-question>
-        </div>
+            <show-question :data="question" v-else></show-question>
+
+        <v-container>
+            <replies :question="question"></replies>
+
+            <new-reply :questionSlug="question.slug"></new-reply>
+        </v-container>
 
     </div>
+
 </template>
 
 <script>
     import ShowQuestion from './ShowQuestion';
     import EditQuestion from './EditQuestion';
+    import Replies from '../reply/replies';
+    import NewReply from '../reply/newReply';
     export default {
         name: "Read",
         components: {
             ShowQuestion,
-            EditQuestion
+            EditQuestion,
+            Replies,
+            NewReply
         },
         data(){
             return {

@@ -1,0 +1,71 @@
+<template>
+    <div>
+        <v-card class="mt-3">
+            <v-card-title>
+                <div class="subtitle-2">{{data.user}}</div>
+                <div class="caption ml-1">said {{data.created_at}}</div>
+            </v-card-title>
+            <v-divider></v-divider>
+
+            <edit-reply v-if="editing" :reply="data"></edit-reply>
+            <v-card-text v-html="reply" v-else>
+            </v-card-text>
+            <div v-if="!editing">
+                <v-card-actions v-if="own">
+                    <v-btn icon small @click="edit()">
+                        <v-icon color="orange">mdi-pencil</v-icon>
+                    </v-btn>
+
+                    <v-btn icon small @click="destroy">
+                        <v-icon color="red">mdi-delete</v-icon>
+                    </v-btn>
+                </v-card-actions>
+            </div>
+        </v-card>
+    </div>
+</template>
+
+<script>
+    import EditReply from './editReply';
+
+    export default {
+        name: "reply",
+        props: ["data", "index"],
+        components: {
+            EditReply
+        },
+        data(){
+            return {
+                editing: false
+            }
+        },
+        computed: {
+            own(){
+                return User.own(this.data.user_id);
+            },
+            reply(){
+                return md.parse(this.data.reply)
+            }
+        },
+        created(){
+            this.listen();
+        },
+        methods: {
+            destroy(){
+                EventBus.$emit('deleteReply', this.index);
+            },
+            edit(){
+                this.editing = true;
+            },
+            listen(){
+                EventBus.$on('cancelEditing', ()=>{
+                    this.editing = false;
+                });
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
