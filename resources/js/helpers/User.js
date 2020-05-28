@@ -42,6 +42,17 @@ class User{
             window.location = '/forum';
         }
     }
+
+    id(){
+        if(this.loggedIn()){
+            const payload = Token.payload(AppStorage.getToken());
+            return payload.sub;
+        }
+    }
+
+    own(id){
+        return this.id() == id;
+    }
 }
 
 export default User = new User();
