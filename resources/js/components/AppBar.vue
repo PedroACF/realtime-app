@@ -6,9 +6,8 @@
                 dark
         >
             <v-toolbar-title>Realtime App</v-toolbar-title>
-
             <v-spacer></v-spacer>
-
+            <app-notification v-if="loggedIn"></app-notification>
             <div>
                 <router-link v-for="item in items" :key="item.title"
                              :to="item.to" style="text-decoration: none"
@@ -22,8 +21,12 @@
 </template>
 
 <script>
+    import AppNotification from './AppNotification';
     export default {
         name: "Toolbar",
+        components:{
+            AppNotification
+        },
         data(){
             return {
                 items: [
@@ -32,7 +35,8 @@
                     {title: 'Categories', to: '/category', show: User.admin()},
                     {title: 'LogIn', to: '/login', show: !User.loggedIn()},
                     {title: 'LogOut', to: '/logout', show: User.loggedIn()},
-                ]
+                ],
+                loggedIn: User.loggedIn()
             };
         },
         created(){
