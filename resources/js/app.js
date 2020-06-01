@@ -17,7 +17,11 @@ Vue.use(VueSimplemde);
 import md from 'marked';
 window.md = md;
 
-const opts = {}
+import VueToastr from 'vue-toastr'
+Vue.use(VueToastr, {
+});
+
+const opts = {};
 
 const vuetify = new Vuetify(opts)
 

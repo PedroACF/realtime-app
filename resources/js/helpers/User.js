@@ -20,7 +20,7 @@ class User{
     hasToken(){
         const storedToken = AppStorage.getToken();
         if(storedToken){
-            return Token.isValid(storedToken)? true: this.logOut();
+            return Token.isValid(storedToken)? true: false;//this.logOut();
         }
         return false;
     }
@@ -35,11 +35,10 @@ class User{
             axios.post('/api/logout', {})
                 .then(res=>{
                     AppStorage.clear();
+                    window.location = '/forum';
                 }).catch(err=>{
                 console.log(err.response.data);
             });
-            AppStorage.clear();
-            window.location = '/forum';
         }
     }
 

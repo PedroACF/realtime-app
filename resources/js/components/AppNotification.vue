@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
     export default {
         name: "AppNotification",
         data(){
@@ -44,6 +45,7 @@
                 .notification((notification) => {
                     this.unread.unshift(notification);
                     this.unreadCount++;
+                    this.showNotification();
                 });
         },
         computed: {
@@ -52,6 +54,18 @@
             }
         },
         methods: {
+            showNotification(){
+                this.$toastr.Add({
+                    'title': 'Respuesta',
+                    'msg': 'Alguin ha respondido a tu pregunta',
+                    'style': {
+                        opacity: '1'
+                    },
+                    'onCreated': function(){
+                        (new Audio("https://notificationsounds.com/soundfiles/8ebda540cbcc4d7336496819a46a1b68/file-sounds-1153-piece-of-cake.mp3")).play();
+                    }
+                });
+            },
             getNotifications(){
                 axios.post('/api/notifications')
                     .then(res => {
