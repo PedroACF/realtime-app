@@ -32,6 +32,20 @@
                         .then(res=>this.content.splice(index,1));
 
                 });
+
+                Echo.private('App.User.' + User.id())
+                    .notification((notification) => {
+                        this.content.unshift(notification.reply);
+                    });
+
+                Echo.channel('deleteReplyChannel')
+                    .listen('DeleteReplyEvent', (e)=>{
+                        for(i=0;i<this.content.length;i++){
+                            if(this.content[index].id == e.id){
+                                this.content.splice(index, 1);
+                            }
+                        }
+                    });
             }
         }
     }
