@@ -34,8 +34,25 @@
         props: ["data"],
         data(){
             return {
-                own: User.own(this.data.user_id)
+                own: User.own(this.data.user_id),
+                replies_count: this.data.replies_count
             };
+        },
+        created(){
+            EventBus.$on('newReply', ()=>{
+                this.replies_count++;
+            });
+            EventBus.$on('deleteReply', ()=>{
+                this.replies_count--;
+            });
+            Echo.private('App.User.' + User.id())
+                .notification((notification) => {
+                    this.replies_count++;
+                });
+            Echo.channel('deleteReplyChannel')
+                .listen('DeleteReplyEvent', (e)=>{
+                    this.replies_count--;
+                });
         },
         computed: {
             body(){

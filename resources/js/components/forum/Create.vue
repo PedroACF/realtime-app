@@ -6,6 +6,7 @@
                     label="Title"
                     type="text"
                     required
+                    :error-messages="errors.title"
             ></v-text-field>
 
             <v-select
@@ -15,9 +16,10 @@
             item-value="id"
             label="Category"
             autocomplete
+            :error-messages="errors.category_id"
             ></v-select>
 
-            <vue-simplemde v-model="form.body" ref="markdownEditor" />
+            <vue-simplemde v-model="form.body" ref="markdownEditor" :error-messages="errors.body"/>
 
             <v-btn color="green" type="submit">
                 Submit
@@ -47,9 +49,14 @@
         },
         methods: {
             create(){
+                const self = this;
                 axios.post('/api/question', this.form)
                     .then(res=>this.$router.push(res.data.path))
-                    .catch(error => this.errors = error.response.data.message);
+                    .catch(err=>{
+                        const {response: {data}={}} = err;
+                        const {errors} = data;
+                        self.errors = errors;
+                    });
             }
         }
     }

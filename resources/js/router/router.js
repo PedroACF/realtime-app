@@ -8,9 +8,16 @@ import Read from '../components/forum/Read';
 import Create from '../components/forum/Create';
 import CreateCategory from '../components/category/Create';
 
+import Parallax from '../components/Parallax';
+
 Vue.use(VueRouter);
 
 const routes = [
+    {
+        name: 'home',
+        path: '/',
+        component: Parallax
+    },
     {
         name: 'forum',
         path: '/forum',

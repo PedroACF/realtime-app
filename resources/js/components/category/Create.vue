@@ -5,6 +5,7 @@
             label="Category name"
             v-model="form.name"
             required
+            :error-messages="errors.name"
             >
             </v-text-field>
 
@@ -48,7 +49,8 @@
             return {
                 form: {},
                 categories: [],
-                editSlug: null
+                editSlug: null,
+                errors: {}
             }
         },
         created(){
@@ -63,11 +65,16 @@
                 this.editSlug? this.update(): this.create();
             },
             create(){
+                const self = this;
                 axios.post('/api/category', this.form)
                     .then(res => {
                         this.categories.unshift(res.data);
                         this.form = {};
-                    });
+                    }).catch(err=>{
+                    const {response: {data}={}} = err;
+                    const {errors} = data;
+                    self.errors = errors;
+                });
             },
             update(){
                 axios.patch(`/api/category/${this.editSlug}`, this.form)

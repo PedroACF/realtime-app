@@ -6,7 +6,10 @@
         <v-container>
             <replies :question="question"></replies>
 
-            <new-reply :questionSlug="question.slug"></new-reply>
+            <new-reply v-if="loggedIn" :questionSlug="question.slug"></new-reply>
+            <router-link v-else to="/login">
+                LogIn to Reply
+            </router-link>
         </v-container>
 
     </div>
@@ -31,6 +34,11 @@
                 question: null,
                 editing: false
             };
+        },
+        computed: {
+            loggedIn(){
+                return User.loggedIn();
+            }
         },
         created(){
             this.listen();
