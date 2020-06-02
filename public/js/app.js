@@ -2497,13 +2497,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Forum",
   data: function data() {
     return {
-      questions: []
+      questions: [],
+      meta: {}
     };
   },
   components: {
@@ -2511,13 +2520,20 @@ __webpack_require__.r(__webpack_exports__);
     AppSidebar: _AppSidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   created: function created() {
-    var _this = this;
+    this.fetchData();
+  },
+  methods: {
+    fetchData: function fetchData(page) {
+      var _this = this;
 
-    axios.get('/api/question').then(function (res) {
-      return _this.questions = res.data.data;
-    })["catch"](function (err) {
-      return console.log(err.response.data);
-    });
+      var url = page ? "/api/question?page=".concat(page) : "/api/question";
+      axios.get(url).then(function (res) {
+        _this.questions = res.data.data;
+        _this.meta = res.data.meta;
+      })["catch"](function (err) {
+        return console.log(err.response.data);
+      });
+    }
   }
 });
 
@@ -63942,13 +63958,34 @@ var render = function() {
           _c(
             "v-flex",
             { attrs: { xs8: "" } },
-            _vm._l(_vm.questions, function(question) {
-              return _c("question", {
-                key: question.path,
-                attrs: { data: question }
-              })
-            }),
-            1
+            [
+              _vm._l(_vm.questions, function(question) {
+                return _c("question", {
+                  key: question.path,
+                  attrs: { data: question }
+                })
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-center mt-4" },
+                [
+                  _c("v-pagination", {
+                    attrs: { length: _vm.meta.last_page },
+                    on: { input: _vm.fetchData },
+                    model: {
+                      value: _vm.meta.current_page,
+                      callback: function($$v) {
+                        _vm.$set(_vm.meta, "current_page", $$v)
+                      },
+                      expression: "meta.current_page"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            2
           ),
           _vm._v(" "),
           _c("v-flex", { attrs: { xs4: "" } }, [_c("app-sidebar")], 1)
@@ -122556,8 +122593,11 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "14881b37b6f300da4033",
-  cluster: "us2",
-  forceTLS: true,
+  //cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  forceTLS: false,
+  wsHost: window.location.hostname,
+  wsPort: 6001,
+  disableStats: true,
   auth: {
     headers: {
       Authorization: authToken

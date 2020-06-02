@@ -7,6 +7,14 @@
                         :key="question.path"
                         :data="question"
                 ></question>
+
+                <div class="text-center mt-4">
+                    <v-pagination
+                            v-model="meta.current_page"
+                            :length="meta.last_page"
+                            @input="fetchData"
+                    ></v-pagination>
+                </div>
             </v-flex>
             <v-flex xs4>
                 <app-sidebar></app-sidebar>
@@ -23,7 +31,8 @@
         name: "Forum",
         data(){
             return {
-                questions: []
+                questions: [],
+                meta: {}
             }
         },
         components: {
@@ -31,9 +40,18 @@
             AppSidebar
         },
         created(){
-            axios.get('/api/question')
-                .then(res => this.questions = res.data.data)
-                .catch(err => console.log(err.response.data));
+            this.fetchData();
+        },
+        methods: {
+            fetchData(page){
+                const url = page? `/api/question?page=${page}`:`/api/question`;
+                axios.get(url)
+                    .then(res => {
+                        this.questions = res.data.data;
+                        this.meta = res.data.meta;
+                    })
+                    .catch(err => console.log(err.response.data));
+            }
         }
     }
 </script>
